@@ -3,6 +3,7 @@
 #
 
 # If not running interactively, don't do anything
+# test
 [[ $- != *i* ]] && return
 alias ls='eza -a'
 alias l='eza -la'
