@@ -23,3 +23,6 @@ export PATH="$PATH:/home/daragh/.local/bin"
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)
+
+#oh-my-posh
+eval "$(oh-my-posh init bash --config $HOME/.config/ohmyposh/zen.toml)"
