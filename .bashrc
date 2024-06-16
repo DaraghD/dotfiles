@@ -7,7 +7,7 @@
 alias ls='eza -a'
 alias l='eza -la'
 alias gs='git status'
-# alias ls='ls --color=auto'
+# alias ls='ls --color=auto' 
 alias grep='grep --color=auto'
 alias v='nvim'
 alias vim='nvim'
