@@ -1,0 +1,11 @@
+[user]
+	email = esy@skynet.com
+	name = daragh
+	signingkey = /home/daragh/.ssh/id_ed25519.pub
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
+[core]
+	editor = nvim
+	autocrlf = input
