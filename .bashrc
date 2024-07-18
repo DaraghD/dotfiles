@@ -20,6 +20,7 @@ export PATH="~/Downloads/clion-2023.2.2/bin:$PATH"
 
 # Created by `pipx` on 2024-02-16 22:50:50
 export PATH="$PATH:/home/daragh/.local/bin"
+export PATH="$PATH:/home/esy/.local/bin"
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)
