@@ -1,6 +1,6 @@
 [user]
 	email = esy@skynet.ie
-	name = daragh
+	name = Daragh Downes
 	signingkey = /home/esy/.ssh/id_ed25519.pub
 [gpg]
 	format = ssh

@@ -19,3 +19,4 @@ export PATH="$PATH:/home/daragh/.local/bin"
 export PATH="$PATH:/home/esy/.local/bin"
 
 eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
+eval "$(direnv hook zsh)"
