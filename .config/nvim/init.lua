@@ -98,6 +98,7 @@ vim.keymap.set("n", "<Space>to", "<cmd>NvimTreeOpen<CR>", { desc = "[T]ree [O]pe
 vim.keymap.set("n", "<Space>tc", "<cmd>NvimTreeClose<CR>", { desc = "[T]ree [C]lose" })
 
 vim.keymap.set("n", "<Space>.", "<cmd>Oil<CR>") --- This is oil.nvim
+vim.keymap.set("n", "<Space>,", "<cmd>Telescope cder<CR>") -- change working dir
 --- vim.keymap.set('n', '<Space>.', '<cmd>Explore<CR>') --- This is netrw , mutually exclusive with oil.nvim
 
 ---
@@ -262,6 +263,9 @@ require("lazy").setup({
 		opts = {},
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
+	{
+		"Zane-/cder.nvim",
+	},
 
 	-- NOTE: Plugins can specify dependencies.
 	--
@@ -353,6 +357,7 @@ require("lazy").setup({
 			-- Enable Telescope extensions if they are installed
 			pcall(require("telescope").load_extension, "fzf")
 			pcall(require("telescope").load_extension, "ui-select")
+			pcall(require("telescope").load_extension, "cder")
 
 			-- See `:help telescope.builtin`
 			local builtin = require("telescope.builtin")
