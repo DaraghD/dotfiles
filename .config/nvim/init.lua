@@ -6,7 +6,7 @@ vim.g.maplocalleader = " "
 vim.o.termguicolors = true
 
 -- Switch dirs when moving around
-vim.o.autochdir = true
+vim.o.autochdir = false
 
 -- Ensure the background color is not overridden
 -- vim.cmd([[highlight Normal guibg=nonectermbg=none]])
@@ -33,6 +33,7 @@ vim.g.have_nerd_font = true
 --  Experiment for yourself to see if you like it!
 vim.opt.relativenumber = true
 vim.opt.number = true
+vim.opt.fixendofline = false
 
 vim.g.netrw_bufsettings = "noma nomod nu rnu nobl nowrap ro"
 
@@ -98,6 +99,7 @@ vim.keymap.set("n", "<Space>to", "<cmd>NvimTreeOpen<CR>", { desc = "[T]ree [O]pe
 vim.keymap.set("n", "<Space>tc", "<cmd>NvimTreeClose<CR>", { desc = "[T]ree [C]lose" })
 
 vim.keymap.set("n", "<Space>.", "<cmd>Oil<CR>") --- This is oil.nvim
+
 vim.keymap.set("n", "<Space>,", "<cmd>Telescope cder<CR>") -- change working dir
 --- vim.keymap.set('n', '<Space>.', '<cmd>Explore<CR>') --- This is netrw , mutually exclusive with oil.nvim
 
