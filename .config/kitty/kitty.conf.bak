@@ -2,12 +2,19 @@ font_family      JetBrainsMono Nerd Font Mono
 bold_font        JetBrainsMono Nerd Font Mono Extra Bold
 bold_italic_font JetBrainsMono Nerd Font Mono Extra Bold Italic
 
-background_opacity 0.3
+#background_opacity 0.8
 
 font_size 12
-
+enable_audio_bell no 
+# cursor #ff8758
+# cursor_text_color #444
+cursor_shape beam 
+cursor_beam_thickness 2.0
+cursor_underline_thickness 2.0
+cursor_blink_interval -1
+cursor_stop_blinking_after 15
 
 # BEGIN_KITTY_THEME
-# Ocean
+# YsDark
 include current-theme.conf
 # END_KITTY_THEME

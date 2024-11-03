@@ -3,15 +3,17 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- Enable true color support
-vim.o.termguicolors = true
+-- vim.o.termguicolors = true
 
--- Switch dirs when moving around
-vim.o.autochdir = false
+-- Switch dirs when moving around vim.o.autochdir = false
+
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.o.mouse = "a"
 
 -- Ensure the background color is not overridden
--- vim.cmd([[highlight Normal guibg=nonectermbg=none]])
+--vim.cmd([[highlight Normal guibg=nonectermbg=none]])
 -- vim.cmd([[colorscheme desert]])
---
 
 vim.api.nvim_set_keymap(
 	"n",
@@ -33,13 +35,11 @@ vim.g.have_nerd_font = true
 --  Experiment for yourself to see if you like it!
 vim.opt.relativenumber = true
 vim.opt.number = true
-vim.opt.fixendofline = false
 
 vim.g.netrw_bufsettings = "noma nomod nu rnu nobl nowrap ro"
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = "a"
-
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
@@ -62,7 +62,7 @@ vim.opt.smartcase = true
 vim.opt.signcolumn = "yes"
 
 -- Decrease update time
-vim.opt.updatetime = 250
+vim.opt.updatetime = 100
 
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner
@@ -76,7 +76,7 @@ vim.opt.splitbelow = true
 --  See `:help 'list'`
 --  and `:help 'listchars'`
 vim.opt.list = true
-vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+vim.opt.listchars = { tab = "  ", trail = "·", nbsp = "␣" }
 
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = "split"
@@ -85,7 +85,7 @@ vim.opt.inccommand = "split"
 vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 30
+vim.opt.scrolloff = 15
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -103,13 +103,15 @@ vim.keymap.set("n", "<Space>.", "<cmd>Oil<CR>") --- This is oil.nvim
 vim.keymap.set("n", "<Space>,", "<cmd>Telescope cder<CR>") -- change working dir
 --- vim.keymap.set('n', '<Space>.', '<cmd>Explore<CR>') --- This is netrw , mutually exclusive with oil.nvim
 
----
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "<leader>gh", "<cmd>Gitsigns preview_hunk<CR>", { desc = "Show [G]it [H]unk" })
+vim.keymap.set("n", "<leader>cR", vim.lsp.buf.rename, { desc = "LSP [C]ode [R]ename" })
 
+vim.keymap.set("n", "<leader>tt", "<cmd>ToggleTerm<CR>", { desc = "[T]oggle [T]erm" })
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -117,6 +119,23 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagn
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
+local function run_game()
+	local term = require("toggleterm.terminal").Terminal
+
+	-- Create a terminal instance for running ./game
+	local game_term = term:new({
+		cmd = "./game",
+		hidden = true,
+		direction = "float", -- Popup terminal
+	})
+
+	-- Toggle the terminal
+	game_term:toggle()
+end
+vim.keymap.set("n", "<leader>cc", ":!ninja<CR>", { desc = "Ninja" })
+vim.keymap.set("n", "<leader>cg", ":!ninja<CR>:!./game<CR>", { desc = "Ninja" })
+vim.keymap.set("n", "<leader>cr", ":TermExec cmd='./game'<CR>", { desc = "Run game" })
 
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
@@ -135,7 +154,7 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 
 -- Git blame
 
-vim.keymap.set("n", "<leader>gl", ":Git blame_line<CR>", { desc = "[G]it blame current [L]ine" })
+vim.keymap.set("n", "<leader>gl", ":Gitsigns blame_line<CR>", { desc = "[G]it blame current [L]ine" })
 vim.keymap.set(
 	"n",
 	"<leader>gtl",
@@ -250,6 +269,21 @@ require("lazy").setup({
 		end,
 	},
 	{
+		"akinsho/toggleterm.nvim",
+		version = "*",
+		opts = {
+			size = 20,
+			direction = "float",
+			float_opts = {
+				border = "curved",
+			},
+		},
+	},
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+	},
+
+	{
 		"nvim-tree/nvim-tree.lua",
 		version = "*",
 		lazy = false,
@@ -332,6 +366,11 @@ require("lazy").setup({
 				--   },
 				-- },
 				-- pickers = {}
+				pickers = {
+					coorscheme = {
+						enable_preview = true,
+					},
+				},
 				defaults = {
 					previewer = true,
 					layout_strategy = "horizontal",
@@ -562,7 +601,7 @@ require("lazy").setup({
 			--  - settings (table): Override the default settings passed when initializing the server.
 			--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 			local servers = {
-				-- clangd = {},
+				clangd = {},
 				-- gopls = {},
 				-- pyright = {},
 				-- rust_analyzer = {},
@@ -649,6 +688,7 @@ require("lazy").setup({
 			end,
 			formatters_by_ft = {
 				lua = { "stylua" },
+				ocaml = { "ocamlformat" },
 				-- Conform can also run multiple formatters sequentially
 				-- python = { "isort", "black" },
 				--
@@ -765,31 +805,41 @@ require("lazy").setup({
 		end,
 	},
 	--
-	{ -- You can easily change to a different colorscheme.
-		-- Change the name of the colorscheme plugin below, and then
-		-- change the command in the config to whatever the name of that colorscheme is.
-		--
-		-- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-		"rebelot/kanagawa.nvim",
-		priority = 1000, -- Make sure to load this before all the other start plugins.
-		init = function()
-			-- Load the colorscheme here.
-			-- Like many other themes, this one has different styles, and you could load
-			-- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-			vim.cmd.colorscheme("kanagawa-wave")
-
-			-- You can configure highlights by doing something like:
-			vim.cmd.hi("Comment gui=none")
-		end,
-	},
-
-	-- Highlight todo, notes, etc in comments
 	{
 		"folke/todo-comments.nvim",
 		event = "VimEnter",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = { signs = false },
 	},
+	-- {
+	-- 	"miikanissi/modus-themes.nvim",
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		vim.cmd.colorscheme("modus_vivendi")
+	-- 	end,
+	-- },
+	{
+		"sainnhe/gruvbox-material",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			-- Optionally configure and load the colorscheme
+			-- directly inside the plugin declaration.
+			vim.g.gruvbox_material_enable_italic = true
+			vim.cmd.colorscheme("gruvbox-material")
+		end,
+	},
+	-- {
+	-- 	"sainnhe/everforest",
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		-- Optionally configure and load the colorscheme
+	-- 		-- directly inside the plugin declaration.
+	-- 		vim.g.everforest_enable_italic = true
+	-- 		vim.cmd.colorscheme("everforest")
+	-- 	end,
+	-- },
 
 	{ -- Collection of various small independent plugins/modules
 		"echasnovski/mini.nvim",
